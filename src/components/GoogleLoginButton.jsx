@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { UserAuth } from '../context/AuthContext';
 
 export default function GoogleLoginButton() {
   useEffect(() => {
@@ -9,16 +10,19 @@ export default function GoogleLoginButton() {
       callback: handleCredentialResponse
     });
     google.accounts.id.renderButton(document.getElementById('g_id_signin'), {
-      theme: 'outline',
+      theme: 'filled_black',
       size: 'large'
     });
   }, []);
 
   async function handleCredentialResponse(response) {
     // response.credential es el id_token de Google
+    const { login } = UserAuth();
     const id_token = response.credential;
     // Enviar al backend para verificar y crear usuario
     console.log('el response',response);
+
+    await login({operacion:'G',user:response,pass:id_token});
     return;
     
     // const res = await fetch('/auth/google', {

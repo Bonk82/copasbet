@@ -11,6 +11,7 @@ import { Alert } from '@mui/material';
 import { Google, HowToReg, LockOpen } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { UserAuth } from '../context/AuthContext';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 function Copyright(props) {
   return (
@@ -22,7 +23,7 @@ function Copyright(props) {
   );
 }
 export const Login = () => {
-  const {signInWithGoogle,signInWithEmail,singUpWithPassword} =  UserAuth()
+  const {login,signInWithGoogle,signInWithEmail,singUpWithPassword} =  UserAuth()
   const [form, setForm] = useState({email:'',password:''})
   const [error, setError] = useState();
   const navigate = useNavigate();
@@ -118,6 +119,7 @@ export const Login = () => {
             </Button>
             <Button type='button' title='Iniciar con Google' fullWidth onClick={signInWithGoogle} variant="outlined" color='error' sx={{ mt: 1, mb: 2 }}><Google/> oogle</Button>
             <Button type='button' title='Registrarte' fullWidth onClick={signUp} variant="contained" color='secondary' sx={{ mt: 1, mb: 2 }}><HowToReg/> Regístrate</Button>
+            <GoogleLoginButton/>
             {/* <Grid container sx={{mt:2}}>
               <Grid item xs>
                 <Link sx={{cursor:'pointer'}} onClick={handleResetPassword} variant="body2">

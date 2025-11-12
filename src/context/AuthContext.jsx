@@ -34,11 +34,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     console.log({userData});
-    const { user, pass,account } = userData;
+    const { user, pass,account ,operacion='V'} = userData;
     try {
       console.log({baseURL: import.meta.env.VITE_API_URL});
       console.log({apiClient});
-      const resp = await apiClient.get('/login',{params:{operacion:'V', user, pass, account }});
+      const resp = await apiClient.get('/login',{params:{operacion, user, pass, account }});
       console.log('la resp',resp);
       
       const deco = jwtDecode(resp.newToken);
