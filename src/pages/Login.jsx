@@ -7,11 +7,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Alert } from '@mui/material';
-import { Google, HowToReg, LockOpen } from '@mui/icons-material';
+import { Alert, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, Link } from '@mui/material';
+import { Google, HowToReg, LockOpen, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { UserAuth } from '../context/AuthContext';
 import GoogleLoginButton from '../components/GoogleLoginButton';
+import { useSnackbar } from 'notistack';
 
 function Copyright(props) {
   return (
@@ -23,43 +24,30 @@ function Copyright(props) {
   );
 }
 export const Login = () => {
-  const {login,signInWithGoogle,signInWithEmail,singUpWithPassword} =  UserAuth()
-  const [form, setForm] = useState({email:'',password:''})
+  const {login,signUp} =  UserAuth()
+  const [form, setForm] = useState({email:'',password:'',nombre:''})
+  const [nuevo, setNuevo] = useState(false);
   const [error, setError] = useState();
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   // useEffect(() => {
   //   console.log('revisando',usuario);
   //   if(usuario?.role) navigate('/');
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [])
-  
-  const signUp = async(e)=>{
-    e.preventDefault()
-    console.log('signup',form);
-    if(!form.email || !form.password) {
-      setError('Debe llenar email y password con datos adecuados')
-      return false
-    }
-    try {
-      const r = await singUpWithPassword(form.email,form.password)
-      console.log('respuesta',r);
-    } catch (error) {
-      console.log(error);
-      setError(error.message)
-    }
-  }
 
   const loginOk = async(e)=>{
     e.preventDefault()
     console.log('login',form);
+    const {email,password,nombre} = form;
     try {
-      const r = await signInWithEmail(form.email,form.password)
-      console.log('respuesta',r);
-      if(r.user) navigate('/')
+      const r = nuevo ? await signUp(email,password) : await login(email,password,nombre);
+      console.log('respuesta loginOK',r);
     } catch (error) {
       console.log(error);
       setError(error.message)
+      enqueueSnackbar(error.message || error, { variant: 'error', autoHideDuration: 3000 });
     }
   }
 
@@ -82,56 +70,62 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" color="primary.main">
-            Iniciar Sesión
+            {nuevo ? 'Registro de Nuevo Usuario' : 'Iniciar Sesión'}
           </Typography>
           {error && <Alert severity="error">{error}</Alert>} 
           <Box component="form" onSubmit={loginOk} noValidate sx={{ mt: 1 }}>
+            {nuevo && (
             <TextField
-              margin="normal"
+              required
+              fullWidth
+              name="nombre"
+              label="Nombre"
+              type="text"
+              id="nombre"
+              autoComplete="nombre"
+              autoFocus={!nuevo}
+              onChange={handleChange}
+              variant='standard'
+              visible={nuevo}
+            />)}
+            <TextField
               required
               fullWidth
               id="email"
               label="Correo Electrónico"
               name="email"
               autoComplete="email"
-              autoFocus
+              autoFocus={!nuevo}
               onChange={handleChange}
               variant='standard'
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange}
-              variant='standard'
-            />
+            <FormControl fullWidth required variant="standard">
+              <InputLabel htmlFor="password">Contraseña</InputLabel>
+              <Input
+                id="password"
+                name='password'
+                onChange={handleChange}
+                fullWidth
+                required
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton  onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3 }}
-              ><LockOpen/> Ingresar
+              ><LockOpen/> {nuevo ? 'Registrarte' : 'Iniciar Sesión'}
             </Button>
-            <Button type='button' title='Iniciar con Google' fullWidth onClick={signInWithGoogle} variant="outlined" color='error' sx={{ mt: 1, mb: 2 }}><Google/> oogle</Button>
-            <Button type='button' title='Registrarte' fullWidth onClick={signUp} variant="contained" color='secondary' sx={{ mt: 1, mb: 2 }}><HowToReg/> Regístrate</Button>
+            <Button type='button' title='Registrarte' fullWidth onClick={() => setNuevo(!nuevo)} variant="contained" color='secondary' sx={{ mt: 1, mb: 2 }}><HowToReg/> Regístrate</Button>
             <GoogleLoginButton/>
-            {/* <Grid container sx={{mt:2}}>
-              <Grid item xs>
-                <Link sx={{cursor:'pointer'}} onClick={handleResetPassword} variant="body2">
-                  Olvidaste tu Contraseña
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"No tienes cuenta? Regístrate"}
-                </Link>
-              </Grid>
-            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

@@ -34,11 +34,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     console.log({userData});
-    const { user, pass,account ,operacion='V'} = userData;
+    const { user, pass,email ,operacion='V'} = userData;
     try {
       console.log({baseURL: import.meta.env.VITE_API_URL});
       console.log({apiClient});
-      const resp = await apiClient.get('/login',{params:{operacion, user, pass, account }});
+      const resp = await apiClient.get('/login',{params:{operacion, user, pass, email }});
       console.log('la resp',resp);
       
       const deco = jwtDecode(resp.newToken);
@@ -46,14 +46,31 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', resp.newToken);
       localStorage.setItem('ip', resp.ip);
       console.log('el deco',deco);
-      
-      if([1,5].includes(deco.id_rol)) navigate('/');
-      if([2].includes(deco.id_rol)) navigate('/pedido');
-      if([3].includes(deco.id_rol)) navigate('/caja');
-      if([4].includes(deco.id_rol)) navigate('/inventario');
+
+      navigate('/');
+      // if([1,5].includes(deco.id_rol)) navigate('/');
+      // if([2].includes(deco.id_rol)) navigate('/pedido');
+      // if([3].includes(deco.id_rol)) navigate('/caja');
+      // if([4].includes(deco.id_rol)) navigate('/inventario');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      throw new Error(error.error || 'Error al iniciar sesión'); // Lanza un error para que pueda ser row
+      throw new Error(error.message || error || 'Error al iniciar sesión'); // Lanza un error para que pueda ser row
+    }
+  };
+
+  const signUp = async (userData) => {
+    console.log({userData});
+    const { nombre, pass,email} = userData;
+    try {
+      console.log({baseURL: import.meta.env.VITE_API_URL});
+      console.log({apiClient});
+      const resp = await apiClient.get('/crudUsuario',{params:{operacion:'I', nombre, pass, cuenta:email,tipo_acceso:'CLAVE'}});
+      console.log('la resp',resp);
+    
+      navigate('/');
+    } catch (error) {
+      console.error('Error signUp:', error);
+      throw new Error(error.message || error); // Lanza un error para que pueda ser row
     }
   };
 
@@ -66,7 +83,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout,signUp }}>
       {children}
     </AuthContext.Provider>
   );
