@@ -26,6 +26,8 @@ apiClient.interceptors.response.use(
       // Redirigir a login si el token expira
       window.location.href = '/login';
     }
+    console.log('intercept error',error);
+    
     return Promise.reject(error.response?.data || error.message);
   }
 );

@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [pages, setPages] = useState([])
 
   useEffect(() => {
   //  console.log('en el efect authcontet',user);
@@ -34,11 +35,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     console.log({userData});
-    const { user, pass,email ,operacion='V'} = userData;
+    const { user, password,email ,operacion='V'} = userData;
     try {
       console.log({baseURL: import.meta.env.VITE_API_URL});
       console.log({apiClient});
-      const resp = await apiClient.get('/login',{params:{operacion, user, pass, email }});
+      const resp = await apiClient.get('/login',{params:{operacion, user, password, email }});
       console.log('la resp',resp);
       
       const deco = jwtDecode(resp.newToken);
@@ -46,7 +47,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', resp.newToken);
       localStorage.setItem('ip', resp.ip);
       console.log('el deco',deco);
-
+      
+      const menu = await apiClient.get('/listarMenu',{params:{opcion:'ROL', id:deco.id_rol}});
+      setPages(menu);
       navigate('/');
       // if([1,5].includes(deco.id_rol)) navigate('/');
       // if([2].includes(deco.id_rol)) navigate('/pedido');
@@ -54,23 +57,23 @@ export const AuthProvider = ({ children }) => {
       // if([4].includes(deco.id_rol)) navigate('/inventario');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      throw new Error(error.message || error || 'Error al iniciar sesión'); // Lanza un error para que pueda ser row
+      throw new Error( error.message || 'Error al iniciar sesión'); // Lanza un error para que pueda ser row
     }
   };
 
   const signUp = async (userData) => {
     console.log({userData});
-    const { nombre, pass,email} = userData;
+    const { nombre,password,email} = userData;
     try {
       console.log({baseURL: import.meta.env.VITE_API_URL});
       console.log({apiClient});
-      const resp = await apiClient.get('/crudUsuario',{params:{operacion:'I', nombre, pass, cuenta:email,tipo_acceso:'CLAVE'}});
+      const resp = await apiClient.get('/signUp',{params:{ nombre, password, cuenta:email,tipo_acceso:'CLAVE'}});
       console.log('la resp',resp);
     
-      navigate('/');
+      login({ user:email,password});
     } catch (error) {
       console.error('Error signUp:', error);
-      throw new Error(error.message || error); // Lanza un error para que pueda ser row
+      throw new Error(error.message); // Lanza un error para que pueda ser row
     }
   };
 
@@ -83,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout,signUp }}>
+    <AuthContext.Provider value={{ user,login, logout,signUp,pages }}>
       {children}
     </AuthContext.Provider>
   );

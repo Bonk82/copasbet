@@ -23,7 +23,7 @@ export default function GoogleLoginButton() {
     // Enviar al backend para verificar y crear usuario
     console.log('el response',response);
 
-    await login({operacion:'G',user:response.credential,pass:response.clientId});
+    await login({operacion:'G',user:response.credential,password:response.clientId});
     return;
     
     // const res = await fetch('/auth/google', {

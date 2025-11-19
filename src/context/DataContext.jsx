@@ -21,20 +21,6 @@ export const DataProvider = ({ children }) => {
     if(user) consumirAPI('/listarClasificador', { opcion: 'T' });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
-  // const toast = (title,message,type) =>{
-  //   let color = type
-  //   if(type == 'success') color = 'violet.9';
-  //   if(type == 'info') color = 'blue.9';
-  //   if(type == 'warning') color = 'cyan.9';
-  //   if(type == 'error') color = 'rgba(143, 0, 0, 1)';
-  //   notifications.show({
-  //     title,
-  //     message,
-  //     color,
-  //     classNames: classes,
-  //   })
-  // }
 
   const consumirAPI = async( ruta,parametros) =>{
     setLoading(true);
@@ -51,7 +37,6 @@ export const DataProvider = ({ children }) => {
       if(ruta.startsWith('/crud') && resp[0]?.message) {
         // toast(`Control ${ruta.replace('/crud','')}`, resp[0].message, 'success');
         console.log(resp);
-        
       }
       if([401,402,403].includes(resp.status)) logout();
       return resp;
