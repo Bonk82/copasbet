@@ -27,7 +27,7 @@ export const euroTheme = createTheme({
         },
     },
     typography:{
-        fontFamily:['monospace','arial'],
+        fontFamily:['Quicksand','monospace','arial'].join(','),
     } 
 },
 esES,

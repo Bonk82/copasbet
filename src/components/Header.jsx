@@ -60,7 +60,7 @@ const Header = () => {
     <>
     {user &&
     <AppBar position="sticky" sx={{height:60,justifyContent:'center',backgroundColor:'primary.dark'}}>
-      <Container maxWidth="xl" sx={{fontFamily:'monospace',color:'primary'}}>
+      <Container maxWidth="xl" sx={{fontFamily:'Michroma',color:'primary'}}>
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1}} src="../assets/icono.png" variant='rounded' />
@@ -72,7 +72,6 @@ const Header = () => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'antiquewhite',
@@ -128,7 +127,6 @@ const Header = () => {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'antiquewhite',
@@ -142,7 +140,7 @@ const Header = () => {
               <Button
                 key={page.id_menu}
                 onClick={()=>navigate(page.ruta)}
-                sx={{ my: 2, color: 'antiquewhite',fontFamily:'monospace',fontSize:'large', display: 'block' }}
+                sx={{ my: 2, color: 'antiquewhite',fontSize:'large', display: 'block' }}
               >
                 {page.descripcion}
               </Button>

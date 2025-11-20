@@ -13,6 +13,9 @@ import { MaterialDesignContent } from 'notistack'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { AppLayout } from './layout/AppLayout'
+import { Bet } from './pages/Bet'
+import { Rank } from './pages/Rank'
+import { Admin } from './pages/Admin'
 
 function App() {
 
@@ -53,7 +56,10 @@ function App() {
             <AppLayout>
               <Routes>
                 <Route path="/login" element={<Login/>} />
-                <Route path="/" element={<ProtectedRoute allowedRoles={[1,4]}><Info/></ProtectedRoute>} />
+                <Route path="/" element={<ProtectedRoute allowedRoles={[1,2]}><Info/></ProtectedRoute>} />
+                <Route path="/bet" element={<ProtectedRoute allowedRoles={[1,2]}><Bet/></ProtectedRoute>} />
+                <Route path="/ranking" element={<ProtectedRoute allowedRoles={[1,2]}><Rank/></ProtectedRoute>} />
+                <Route path="/admin" element={<ProtectedRoute allowedRoles={[2]}><Admin/></ProtectedRoute>} />
                 <Route path="*" element={<div style={{height:'calc(100vh - 80px)',display:'grid',placeItems:'center'}}><h1>404 Página no encontrada</h1></div>} />
               </Routes>
             </AppLayout>
