@@ -14,6 +14,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
+import { ThemeSwitcher } from '../themes/ThemeSwitcher';
+import { ThemeToggle } from '../themes/ThemeToggle';
 
 const settings = ['Dashboard', 'Salir'];
 const Header = () => {
@@ -59,127 +61,129 @@ const Header = () => {
   return (
     <>
     {user &&
-    <AppBar position="sticky" sx={{height:60,justifyContent:'center',backgroundColor:'primary.dark'}}>
-      <Container maxWidth="xl" sx={{fontFamily:'Michroma',color:'primary'}}>
-        <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1}} src="../assets/icono.png" variant='rounded' />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'antiquewhite',
-              textDecoration: 'none',
-            }}
-          >
-            CopasBet 2024
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon fontSize='2.5rem' />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    // <Box sx={{height:60,justifyContent:'center',backgroundColor:'primary.main',position:'sticky',top:0,zIndex:999}}>
+      <AppBar position="sticky" sx={{height:60,justifyContent:'center',backgroundColor:'primary.main'}}>
+        <Container maxWidth="xl" sx={{paddingX:{xs:1,sm:2,md:3,lg:4,xl:5}}}>
+          <Toolbar disableGutters>
+            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+            <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1,objectFit:'contain'}} src="../assets/icono.png" variant='rounded' />
+            <Typography
+              noWrap
+              href="/"
               sx={{
-                display: { xs: 'block', md: 'none' },
+                mr: { md: 2,lg:6,xl:10 },
+                display: { xs: 'none', md: 'flex' },
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'antiquewhite',
+                textDecoration: 'none',
+                fontSize:'.8rem'
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.id_menu} onClick={()=>navigate(page.ruta)}>
-                  <Typography sx={{fontSize:'2rem',color:'primary.main',fontWeight:700}} textAlign="center">{page.descripcion}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Avatar sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} src="../assets/icono.png" variant='rounded'/>
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'antiquewhite',
-              textDecoration: 'none',
-            }}
-          >
-            CopasBet 2024
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.id_menu}
-                onClick={()=>navigate(page.ruta)}
-                sx={{ my: 2, color: 'antiquewhite',fontSize:'large', display: 'block' }}
-              >
-                {page.descripcion}
-              </Button>
-            ))}
-          </Box>
+              CopasBet
+            </Typography>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Typography sx={{display:{xs:'none',md:'inline-flex'},marginRight:4,color:'antiquewhite'}}>{user.nombre || user.email}</Typography>
-            <Tooltip title="Configuraciones">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={avatar} src={avatar} sx={{bgcolor:'antiquewhite'}} />
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' },maxWidth:'80px' }}>
+              <IconButton
+                size="large"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon fontSize='2.5rem' />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page.id_menu} onClick={()=>navigate(page.ruta)}>
+                    <Typography sx={{fontSize:'2rem',color:'primary.main',fontWeight:700}} textAlign="center">{page.descripcion}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <Avatar sx={{ display: { xs: 'flex', md: 'none' }, mr: 1,objectFit:'contain',width:'50px' }} src="../assets/icono.png" variant='rounded'/>
+            <Typography
+              noWrap
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'antiquewhite',
+                textDecoration: 'none',
+                fontSize:'0.6rem',
+                marginRight:10
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography variant='h2' sx={{fontSize:'2rem'}} textAlign="center">{setting}</Typography>
-                </MenuItem>
+              CopasBet
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page.id_menu}
+                  onClick={()=>navigate(page.ruta)}
+                  sx={{ my: 2,mx:{ md: 2,lg:3,xl:6 }, color: 'antiquewhite',fontSize:'clamp(1rem, 1.2vw, 2rem)', display: 'block',":hover":{backgroundColor:'secondary.main'}}}
+                >
+                  {page.descripcion}
+                </Button>
               ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>}
+            </Box>
+
+            <Box sx={{ flexGrow: 1,display:'block ruby',textAlign:'right' }}>
+              {/* <ThemeSwitcher /> */}
+              <ThemeToggle/>
+              <Typography sx={{display:{xs:'none',md:'inline-flex'},marginRight:2,color:'antiquewhite',fontSize:'clamp(1rem, 1vw, 1.5rem)'}}>{user.usuario || user.cuenta}</Typography>
+              <Tooltip title="Configuraciones">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={avatar} src={avatar} sx={{bgcolor:'antiquewhite'}} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography variant='h2' sx={{fontSize:'2rem'}} textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    // </Box> 
+    }
     </>
   );
 }

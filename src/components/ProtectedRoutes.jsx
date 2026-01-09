@@ -4,7 +4,7 @@ import {jwtDecode} from "jwt-decode";
 
 const ProtectedRoute = ({ children,allowedRoles }) => {
   const { user,logout } = UserAuth();
-  // console.log('el user en protected',user);
+  console.log('el user en protected',user);
   let storedUser;
   let userRole;
 
@@ -13,10 +13,12 @@ const ProtectedRoute = ({ children,allowedRoles }) => {
     if (storedUser) {
       try {
         const decoded = jwtDecode(storedUser);
-        // console.log('Token decodificado Protected:', decoded);
+        console.log('Token decodificado Protected:', decoded, decoded.exp * 1000, Date.now());
         if (decoded.exp * 1000 < Date.now()) {
           logout(); // Token expirado
           return <Navigate to="/login" replace />; // Redirige a la página de login
+        }else{
+          userRole = decoded.id_rol;
         }
       } catch (error) {
         console.error('Error al verificar el token:', error);

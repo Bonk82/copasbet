@@ -100,19 +100,19 @@ export const Info = () => {
 
   return (
     <>
-      <Box component='main' sx={{textAlign:'center',backgroundColor:"whitesmoke",width:'100vw'}} >
+      <Box component='main' sx={{textAlign:'center',width:'100%'}} >
         <Box sx={{display: 'flex',flexDirection: 'column', alignItems: 'center','& > *': {m: 1, }}}>
           <ToggleButtonGroup size="large" value={grilla.tipo} color="primary" sx={{fontWeight:'bold'}} aria-label="Platform" exclusive >
             {buttons}
           </ToggleButtonGroup>
         </Box>
         {!grilla.mostrar && <Box sx={{display:'flex',justifyContent:'center'}}>
-          <Box sx={{width:{xs:'100%',md:'80%'}}} >
+          <Box sx={{width:{xs:'100vw',md:'80%'}}} >
             <img src="../assets/fixture.jpg" alt="Cargando Imagen" width='100%' />
           </Box>
         </Box>}
         {grilla.mostrar && <Box sx={{display:'flex',justifyContent:'center'}}>
-          <Box sx={{width:{xs:'100%',md:'80%'},height: '85vh'}} >
+          <Box sx={{width:{xs:'100vw',md:'80%'},height: '85vh'}} >
             <DataGrid
               rows={grilla.filas}
               getRowId={(row) => row.id_partido || row.id_equipo}

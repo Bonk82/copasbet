@@ -227,7 +227,7 @@ export const Admin = () => {
 
   return (
     <>
-    <Box component='main' sx={{backgroundColor:'whitesmoke',minHeight:'100vh',width:{xs:'100%',md:'80%'},display:'flex',flexDirection:{xs:'column',md:'row'},justifyContent:'center',marginX:'auto',gap:2}} >
+    <Box component='main' sx={{width:'100%',display:'flex',flexDirection:{xs:'column',md:'row'},justifyContent:'center',marginX:'auto',gap:2}} >
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{alignItems:'center',width:{xs:'100vw',md:400},mt:2,paddingX:2,justifyContent:'center'}}>
         <Typography variant="h5" color='primary' sx={{fontWeight:500,backgroundColor:'secondary.main',borderRadius:2,pl:4}}>Registro de Partidos</Typography>
         <FormGroup>

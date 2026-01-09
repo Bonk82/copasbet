@@ -45,7 +45,7 @@ function App() {
     <AuthProvider>
       <DataProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <AppTheme>
+        {/* <AppTheme> */}
           <SnackbarProvider maxSnack={3} preventDuplicate autoHideDuration={7000} anchorOrigin={{vertical:'top',horizontal:'right'}} TransitionComponent={slideAlert} Components={{
               success: StyledMaterialDesignContent,
               error: StyledMaterialDesignContent,
@@ -64,7 +64,7 @@ function App() {
               </Routes>
             </AppLayout>
           </SnackbarProvider>
-        </AppTheme>
+        {/* </AppTheme> */}
         </LocalizationProvider>
       </DataProvider>
     </AuthProvider>

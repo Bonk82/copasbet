@@ -232,7 +232,7 @@ export const Bet = () => {
 
   return (
     <>
-      <Box component='main' sx={{backgroundColor:'whitesmoke',width:'100vw'}} >
+      <Box component='main' sx={{width:'100%'}} >
         <Box sx={{display: 'flex',flexDirection: 'column',justifyContent:'center', alignItems: 'center','& > *': {m: 1, }}}>
           <ToggleButtonGroup size="large" value={grilla.tipo} color="primary" sx={{fontWeight:'bold'}} aria-label="Platform" exclusive >
             {buttons}

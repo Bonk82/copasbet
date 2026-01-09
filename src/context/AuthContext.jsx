@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [pages, setPages] = useState([])
 
   useEffect(() => {
@@ -20,17 +21,23 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       try {
         const decoded = jwtDecode(storedUser);
-        console.log('revisando en auth',decoded.exp * 1000 < Date.now(),decoded,user);
-      
-        decoded.exp * 1000 > Date.now() ? setUser(decoded) : logout(); // Verifica si el token no ha expirado
+        console.log('revisando en auth',decoded.exp * 1000 > Date.now(),decoded,user);
+        decoded.exp * 1000 > Date.now() ? setearUsuario(decoded) : logout(); // Verifica si el token no ha expirad
       } catch (error) {
         console.error('Error al verificar el token:', error);
-        logout(); // Token inválido
+        // logout(); // Token inválido
       }
     }
    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const setearUsuario = async (data) => {
+    setUser(data)
+    setAvatar(data.avatar || '../assets/avatarDefault.png');
+    const menu = await apiClient.get('/listarMenu',{params:{opcion:'ROL', id:data.id_rol}});
+    setPages(menu);
+  }
   
 
   const login = async (userData) => {
@@ -86,7 +93,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user,login, logout,signUp,pages }}>
+    <AuthContext.Provider value={{ user,avatar,login, logout,signUp,pages }}>
       {children}
     </AuthContext.Provider>
   );

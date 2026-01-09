@@ -6,10 +6,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Alert, Backdrop, CircularProgress, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, Link } from '@mui/material';
-import { Google, HowToReg, LockOpen, Visibility, VisibilityOff } from '@mui/icons-material';
-import { useEffect } from 'react';
+import { Google, HowToReg, Image, LockOpen, Visibility, VisibilityOff } from '@mui/icons-material';
 import { UserAuth } from '../context/AuthContext';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { useSnackbar } from 'notistack';
@@ -17,7 +15,7 @@ import { useSnackbar } from 'notistack';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © Bonk '}
+      {'Copyright © Copasbet '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -69,14 +67,12 @@ export const Login = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main', width: 60, height: 60 }} src={"../assets/copasbet512.png"}></Avatar>
         <Typography component="h1" variant="h5" color="primary.main">
-          {nuevo ? 'Registro de Nuevo Usuario' : 'Iniciar Sesión'}
+          {nuevo ? 'Registro de Nuevo Usuario' : 'Iniciar Sesión en CopasBet'}
         </Typography>
         {error && <Alert severity="error">{error}</Alert>} 
-        <Box component="form" onSubmit={loginOk} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={loginOk} noValidate sx={{ mt: 1 }} style={{zIndex:1}}>
           {nuevo && (
           <TextField
             required
@@ -133,7 +129,7 @@ export const Login = () => {
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
       <Backdrop sx={{ color: 'primary.main',backdropFilter:'blur(5px)', zIndex: (theme) => theme.zIndex.drawer + 100 }} open={loading}>
-        <CircularProgress color="inherit" size='8rem' thickness={5} />
+        <CircularProgress color="inherit" size='0.8rem' thickness={5} />
       </Backdrop>
     </Container>
   )
